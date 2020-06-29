@@ -15,5 +15,14 @@ app.get("/", (req, res) => {
     res.json(appointments);
   }
 });
+app.post("/appointments", (req,res) => {
+  const dateTime = req.body.queryResult.parameters["date-time"].date_time;
+  const newAppointment = {
+    date_time: dateTime,
+  }
+  db.get("appointments").push(newAppointment).write();
+  const fulfillmentMessages = req.body.queryResult.fulfillmentMessages;
+  res.json({fulfillmentMessages})
+})
 
 module.exports = app;
